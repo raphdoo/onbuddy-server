@@ -7,7 +7,6 @@ interface UserAttrs {
   companyName?: string;
   email: string;
   password: string;
-  phoneNumber?: string;
   bio?: string;
   manager?: string;
   programTrack?: string;
@@ -29,7 +28,6 @@ interface UserDoc extends mongoose.Document {
   companyName?: string;
   email: string;
   password: string;
-  phoneNumber?: string;
   bio?: string;
   manager?: string;
   programTrack?: string;
@@ -77,10 +75,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-    },
-    phoneNumber: {
-      type: String,
-      default: '-',
     },
     bio: {
       type: String,
