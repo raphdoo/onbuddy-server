@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 // An interface that describes the properties required to create a new user
 interface UserAttrs {
-  firstName: string;
-  lastNmae: string;
+  firstname: string;
+  lastname: string;
   companyName?: string;
   email: string;
   password: string;
@@ -23,8 +23,8 @@ interface UserModel extends mongoose.Model<UserDoc> {
 
 //An interface that describes the properties that a user document has
 interface UserDoc extends mongoose.Document {
-  firstName: string;
-  lastNmae: string;
+  firstname: string;
+  lastname: string;
   companyName?: string;
   email: string;
   password: string;
@@ -51,6 +51,7 @@ export enum CandidateTypes {
   Interns = 'interns',
   Graduate = 'graduate',
   Experience = 'experienced',
+  NotProvided = '-',
 }
 
 const userSchema = new mongoose.Schema(
@@ -100,7 +101,7 @@ const userSchema = new mongoose.Schema(
     candidateType: {
       type: String,
       enum: Object.values(CandidateTypes),
-      default: '-',
+      default: CandidateTypes.NotProvided,
     },
     status: {
       type: String,

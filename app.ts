@@ -6,6 +6,7 @@ import cookieSession from 'cookie-session';
 import 'express-async-errors';
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
+import { signupRouter } from './src/routes/signup';
 
 // Import routes
 
@@ -22,6 +23,7 @@ app.use(
 );
 
 // Routes endpoints
+app.use(signupRouter);
 
 // handling other routes
 app.all('*', async () => {
