@@ -1,0 +1,150 @@
+import mongoose from 'mongoose';
+
+// An interface that describes the properties required to create a new user
+interface UserAttrs {
+  firstName: string;
+  lastNmae: string;
+  companyName?: string;
+  email: string;
+  password: string;
+  phoneNumber?: string;
+  bio?: string;
+  manager?: string;
+  programTrack?: string;
+  checklistProgress?: number;
+  role?: string;
+  candidateType?: string;
+  status?: string;
+}
+
+// An interface that describes the properties that a user model has
+interface UserModel extends mongoose.Model<UserDoc> {
+  build(attrs: UserAttrs): UserDoc;
+}
+
+//An interface that describes the properties that a user document has
+interface UserDoc extends mongoose.Document {
+  firstName: string;
+  lastNmae: string;
+  companyName?: string;
+  email: string;
+  password: string;
+  phoneNumber?: string;
+  bio?: string;
+  manager?: string;
+  programTrack?: string;
+  checklistProgress?: number;
+  role?: string;
+  candidateType?: string;
+  status?: string;
+}
+
+export enum userStatus {
+  Active = 'active',
+  Deactivated = 'deactivated',
+}
+
+export enum roles {
+  Employee = 'employee',
+  Admin = 'admin',
+}
+
+export enum CandidateTypes {
+  Interns = 'interns',
+  Graduate = 'graduate',
+  Experience = 'experienced',
+}
+
+const userSchema = new mongoose.Schema(
+  {
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    companyName: {
+      type: String,
+      default: '-',
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      default: '-',
+    },
+    bio: {
+      type: String,
+      default: '-',
+    },
+    manager: {
+      type: String,
+      default: '-',
+    },
+    programTrack: {
+      type: String,
+      default: '-',
+    },
+    checklistProgress: {
+      type: Number,
+      default: 0,
+    },
+    role: {
+      type: String,
+      enum: Object.values(roles),
+      default: roles.Employee,
+    },
+    candidateType: {
+      type: String,
+      enum: Object.values(CandidateTypes),
+      default: '-',
+    },
+    status: {
+      type: String,
+      enum: Object.values(userStatus),
+      default: userStatus.Active,
+    },
+  },
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.password;
+        delete ret.__v;
+      },
+    },
+  }
+);
+
+//presave function to update to hashed password
+userSchema.pre('save', async function (done) {
+  if (this.isModified('password')) {
+    // const hashed = await Password.toHash(this.get('password'));
+    // this.set('password', hashed);
+  }
+
+  done();
+});
+
+//adding build method to mongoose userSchema object
+userSchema.statics.build = (attrs: UserAttrs) => {
+  return new User(attrs);
+};
+
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
+
+const buildUser = (attrs: UserAttrs) => {
+  return new User(attrs);
+};
+
+export { User };
