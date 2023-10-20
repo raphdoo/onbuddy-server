@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Password } from '../services/password';
 
 // An interface that describes the properties required to create a new user
 interface UserAttrs {
@@ -124,8 +125,8 @@ const userSchema = new mongoose.Schema(
 //presave function to update to hashed password
 userSchema.pre('save', async function (done) {
   if (this.isModified('password')) {
-    // const hashed = await Password.toHash(this.get('password'));
-    // this.set('password', hashed);
+    const hashed = await Password.toHash(this.get('password'));
+    this.set('password', hashed);
   }
 
   done();
