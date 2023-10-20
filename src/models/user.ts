@@ -64,10 +64,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    companyName: {
-      type: String,
-      default: '-',
-    },
     email: {
       type: String,
       required: true,
@@ -107,6 +103,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(userStatus),
       default: userStatus.Active,
+    },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
     },
   },
   {
