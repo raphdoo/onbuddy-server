@@ -11,6 +11,7 @@ import { signinRouter } from './src/routes/users/signin';
 import { signoutRouter } from './src/routes/users/signout';
 import { forgotPasswordRouter } from './src/routes/users/forgotpassword';
 import { resetPasswordRouter } from './src/routes/users/resetPassword';
+import { currentUserRouter } from './src/routes/users/currentuser';
 
 // Import routes
 
@@ -32,6 +33,7 @@ app.use(signinRouter);
 app.use(signoutRouter);
 app.use(forgotPasswordRouter);
 app.use(resetPasswordRouter);
+app.use(currentUserRouter);
 
 // handling other routes
 app.all('*', async () => {
