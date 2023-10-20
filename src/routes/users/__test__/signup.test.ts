@@ -1,5 +1,7 @@
 import request from 'supertest';
 import { app } from '../../../../app';
+import { Company } from '../../../models/company';
+import { User } from '../../../models/user';
 
 it('returns a 201 on successful signup', async () => {
   return request(app)
@@ -10,8 +12,49 @@ it('returns a 201 on successful signup', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: '1234567',
+      pricing: 'free',
     })
     .expect(201);
+});
+
+it('creates a company model when successful', async () => {
+  const email = 'test@gmail.com';
+
+  await request(app)
+    .post('/api/v1/users/signup')
+    .send({
+      firstname: 'firstname',
+      lastname: 'lastname',
+      companyName: 'companyName',
+      email,
+      password: '1234567',
+      pricing: 'free',
+    })
+    .expect(201);
+
+  const company = await Company.findOne({ email });
+
+  expect(company!.email).toEqual(email);
+});
+
+it('creates a user when successful', async () => {
+  const email = 'test@gmail.com';
+
+  await request(app)
+    .post('/api/v1/users/signup')
+    .send({
+      firstname: 'firstname',
+      lastname: 'lastname',
+      companyName: 'companyName',
+      email,
+      password: '1234567',
+      pricing: 'free',
+    })
+    .expect(201);
+
+  const user = await User.findOne({ email });
+
+  expect(user!.email).toEqual(email);
 });
 
 it('returns a 400 with an invalid credential', async () => {
@@ -23,6 +66,7 @@ it('returns a 400 with an invalid credential', async () => {
       companyName: 'es',
       email: 'test.com',
       password: '1234567',
+      pricing: '',
     })
     .expect(400);
 });
@@ -62,6 +106,13 @@ it('returns a 400 with a missing credential', async () => {
       lastname: 'lastname',
     })
     .expect(400);
+
+  await request(app)
+    .post('/api/v1/users/signup')
+    .send({
+      pricing: 'free',
+    })
+    .expect(400);
 });
 
 it('disallows duplicate emails', async () => {
@@ -73,6 +124,7 @@ it('disallows duplicate emails', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: '1234567',
+      pricing: 'free',
     })
     .expect(201);
 
@@ -84,6 +136,7 @@ it('disallows duplicate emails', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: '1234567',
+      pricing: 'free',
     })
     .expect(400);
 });
@@ -97,6 +150,7 @@ it('sets a cookie after successful signup', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: '1234567',
+      pricing: 'free',
     })
     .expect(201);
 

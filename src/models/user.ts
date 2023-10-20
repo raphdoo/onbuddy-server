@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 interface UserAttrs {
   firstname: string;
   lastname: string;
-  companyName?: string;
+  company: string;
   email: string;
   password: string;
   bio?: string;
@@ -25,7 +25,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 interface UserDoc extends mongoose.Document {
   firstname: string;
   lastname: string;
-  companyName?: string;
+  company: string;
   email: string;
   password: string;
   bio?: string;
@@ -37,12 +37,12 @@ interface UserDoc extends mongoose.Document {
   status?: string;
 }
 
-export enum userStatus {
+export enum UserStatus {
   Active = 'active',
   Deactivated = 'deactivated',
 }
 
-export enum roles {
+export enum Roles {
   Employee = 'employee',
   Admin = 'admin',
 }
@@ -91,8 +91,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: Object.values(roles),
-      default: roles.Employee,
+      enum: Object.values(Roles),
+      default: Roles.Employee,
     },
     candidateType: {
       type: String,
@@ -101,8 +101,8 @@ const userSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: Object.values(userStatus),
-      default: userStatus.Active,
+      enum: Object.values(UserStatus),
+      default: UserStatus.Active,
     },
     company: {
       type: mongoose.Schema.Types.ObjectId,

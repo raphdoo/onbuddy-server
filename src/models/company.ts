@@ -5,6 +5,7 @@ interface CompanyAttrs {
   companyName: string;
   email: string;
   pricing: string;
+  status?: string;
 }
 
 // An interface that describes the properties that a user model has
@@ -17,11 +18,16 @@ interface CompanyDoc extends mongoose.Document {
   companyName: string;
   email: string;
   pricing: string;
+  status?: string;
 }
 
 export enum pricingPlan {
   Free = 'free',
   Pro = 'pro',
+}
+
+export enum Status {
+  Active = 'active',
   Deactivated = 'deactivated',
 }
 
@@ -39,6 +45,11 @@ const companySchema = new mongoose.Schema(
       type: String,
       enum: Object.values(pricingPlan),
       default: pricingPlan.Free,
+    },
+    status: {
+      type: String,
+      enum: Object.values(Status),
+      default: Status.Active,
     },
   },
   {

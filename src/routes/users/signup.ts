@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { User } from '../../models/user';
+import { Roles, User } from '../../models/user';
 import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../../../errors/bad-request-error';
 import { validateRequest } from '../../../middlewares/validate-request';
+import { Company } from '../../models/company';
 
 const router = express.Router();
 
@@ -23,6 +24,11 @@ router.post(
       .trim()
       .isLength({ min: 3, max: 100 })
       .withMessage('Company Name must be between 3 and 50 characters long'),
+    body('pricing')
+      .isLength({ min: 3, max: 20 })
+      .withMessage(
+        'Please provide Pricing plan with characters between 3 and 20'
+      ),
     body('password')
       .trim()
       .isLength({ min: 4, max: 20 })
@@ -30,20 +36,30 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { firstname, lastname, email, password, companyName } = req.body;
+    const { firstname, lastname, email, password, companyName, pricing } =
+      req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingCompany = await Company.findOne({ email });
 
-    if (existingUser) {
-      throw new BadRequestError('Email already in use');
+    if (existingCompany) {
+      throw new BadRequestError('Company Email already in use');
     }
+
+    const company = Company.build({
+      companyName,
+      email,
+      pricing,
+    });
+
+    await company.save();
 
     const user = User.build({
       firstname,
       lastname,
       email,
       password,
-      companyName,
+      company: company.id,
+      role: Roles.Admin,
     });
 
     await user.save();
