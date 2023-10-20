@@ -7,6 +7,8 @@ import 'express-async-errors';
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
 import { signupRouter } from './src/routes/users/signup';
+import { signinRouter } from './src/routes/users/signin';
+import { signoutRouter } from './src/routes/users/signout';
 
 // Import routes
 
@@ -24,6 +26,8 @@ app.use(
 
 // Routes endpoints
 app.use(signupRouter);
+app.use(signinRouter);
+app.use(signoutRouter);
 
 // handling other routes
 app.all('*', async () => {
