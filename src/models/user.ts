@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Password } from '../services/password';
+import crypto from 'crypto';
 
 // An interface that describes the properties required to create a new user
 interface UserAttrs {
@@ -36,6 +37,9 @@ interface UserDoc extends mongoose.Document {
   role?: string;
   candidateType?: string;
   status?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpire?: Date;
+  getPasswordRestToken(): string;
 }
 
 export enum UserStatus {
@@ -109,6 +113,12 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Company',
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
   },
   {
     toJSON: {
@@ -131,6 +141,23 @@ userSchema.pre('save', async function (done) {
 
   done();
 });
+
+//Generate password reset token
+userSchema.methods.getPasswordRestToken = function () {
+  // Generate token
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  //Hash and set resetPasswordToken
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  //set Token expire time
+  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
+
+  return resetToken;
+};
 
 //adding build method to mongoose userSchema object
 userSchema.statics.build = (attrs: UserAttrs) => {
