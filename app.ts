@@ -12,6 +12,7 @@ import { signoutRouter } from './src/routes/users/signout';
 import { forgotPasswordRouter } from './src/routes/users/forgotpassword';
 import { resetPasswordRouter } from './src/routes/users/resetPassword';
 import { currentUserRouter } from './src/routes/users/currentuser';
+import { currentUser } from './middlewares/current-user';
 
 // Import routes
 
@@ -26,6 +27,9 @@ app.use(
     secure: false, //we update this line of code later
   })
 );
+
+//Authorization Middleware
+app.use(currentUser);
 
 // Routes endpoints
 app.use(signupRouter);

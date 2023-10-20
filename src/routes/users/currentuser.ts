@@ -1,5 +1,6 @@
 import express, { Response, Request } from 'express';
 import { currentUser } from '../../../middlewares/current-user';
+import { adminUser } from '../../../middlewares/admin-user';
 
 const router = express.Router();
 
