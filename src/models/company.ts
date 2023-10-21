@@ -14,7 +14,7 @@ interface CompanyModel extends mongoose.Model<CompanyDoc> {
 }
 
 //An interface that describes the properties that a user document has
-interface CompanyDoc extends mongoose.Document {
+export interface CompanyDoc extends mongoose.Document {
   companyName: string;
   email: string;
   pricing: string;
