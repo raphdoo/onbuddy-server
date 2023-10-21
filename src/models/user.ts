@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 import { Password } from '../utils/password';
 import crypto from 'crypto';
+import { CompanyDoc } from './company';
 
 // An interface that describes the properties required to create a new user
 interface UserAttrs {
   firstname: string;
   lastname: string;
-  companyId: string;
+  companyId: CompanyDoc;
   email: string;
   password: string;
   bio?: string;
@@ -24,10 +25,10 @@ interface UserModel extends mongoose.Model<UserDoc> {
 }
 
 //An interface that describes the properties that a user document has
-interface UserDoc extends mongoose.Document {
+export interface UserDoc extends mongoose.Document {
   firstname: string;
   lastname: string;
-  companyId: string;
+  companyId: CompanyDoc;
   email: string;
   password: string;
   bio?: string;
