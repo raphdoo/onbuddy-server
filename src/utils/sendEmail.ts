@@ -1,4 +1,5 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
+import config from "../common/config";
 
 interface EmailOptions {
   email: string;
@@ -6,19 +7,21 @@ interface EmailOptions {
   message: string;
 }
 
+const smtp = config.smtp;
+
 export const sendEmail = async (options: EmailOptions): Promise<void> => {
   try {
     const transport = nodemailer.createTransport({
-      host: process.env.SMTP_HOST!,
-      port: process.env.SMTP_PORT!,
+      host: smtp.host,
+      port: smtp.port,
       auth: {
-        user: process.env.SMTP_EMAIL!,
-        pass: process.env.SMTP_PASSWORD!,
+        user: smtp.email,
+        pass: smtp.password,
       },
     });
 
     const message = {
-      from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
+      from: `${smtp.from_name} <${smtp.from_email}>`,
       to: options.email,
       subject: options.subject,
       text: options.message,
@@ -26,6 +29,6 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
 
     await transport.sendMail(message);
   } catch (err) {
-    throw new Error('Error connecting to SMTP');
+    throw new Error("Error connecting to SMTP");
   }
 };
