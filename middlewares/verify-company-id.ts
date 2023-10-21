@@ -7,12 +7,14 @@ export const verifyCompanyId = async (
   res: Response,
   next: NextFunction
 ) => {
-  const company = await Company.findOne({ email: req.currentUser!.email });
+  if (req.currentUser) {
+    const company = await Company.findOne({ email: req.currentUser!.email });
 
-  if (!company) {
-    throw new BadRequestError('Not Authorized - user company not authorized');
+    if (!company) {
+      throw new BadRequestError('Not Authorized - user company not authorized');
+    }
+
+    req.currentUser!.companyId = company.id;
   }
-
-  req.currentUser!.companyId = company.id;
   next();
 };
