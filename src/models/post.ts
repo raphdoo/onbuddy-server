@@ -5,8 +5,8 @@ import { CompanyDoc } from './company';
 // An interface that describes the properties required to create a new user
 interface PostAttrs {
   content: string;
-  userId: UserDoc;
-  companyId: CompanyDoc;
+  userId: string;
+  companyId: string;
   likes?: string;
 }
 
@@ -18,8 +18,8 @@ interface PostModel extends mongoose.Model<PostDoc> {
 //An interface that describes the properties that a user document has
 export interface PostDoc extends mongoose.Document {
   content: string;
-  userId: UserDoc;
-  companyId: CompanyDoc;
+  userId: string;
+  companyId: string;
   likes?: string;
 }
 

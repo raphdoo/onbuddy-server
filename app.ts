@@ -8,7 +8,8 @@ import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
 import authRouter from './src/api/auth';
 import { currentUser } from './middlewares/current-user';
-import { verifyCompanyId } from './middlewares/verify-company-id';
+import { setCompanyId } from './middlewares/set-company-id';
+import userRouter from './src/api/user';
 
 // Import routes
 
@@ -28,10 +29,11 @@ app.use(
 app.use(currentUser);
 
 //Verifying same Company middleware
-app.use(verifyCompanyId);
+app.use(setCompanyId);
 
 // Routes endpoints
 app.use(authRouter);
+app.use(userRouter);
 
 // handling other routes
 app.all('*', async () => {

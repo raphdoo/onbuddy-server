@@ -7,7 +7,7 @@ import { CompanyDoc } from './company';
 interface UserAttrs {
   firstname: string;
   lastname: string;
-  companyId: CompanyDoc;
+  companyId: string;
   email: string;
   password: string;
   bio?: string;
@@ -28,7 +28,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 export interface UserDoc extends mongoose.Document {
   firstname: string;
   lastname: string;
-  companyId: CompanyDoc;
+  companyId: string;
   email: string;
   password: string;
   bio?: string;

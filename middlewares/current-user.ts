@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { CompanyDoc } from '../src/models/company';
 
 interface userPayload {
   id: string;
