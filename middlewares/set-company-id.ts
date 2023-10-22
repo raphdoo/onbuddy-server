@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { BadRequestError } from '../errors/bad-request-error';
 import { Company } from '../src/models/company';
 
-export const verifyCompanyId = async (
+export const setCompanyId = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -11,7 +11,7 @@ export const verifyCompanyId = async (
     const company = await Company.findOne({ email: req.currentUser!.email });
 
     if (!company) {
-      throw new BadRequestError('Not Authorized - user company not authorized');
+      throw new BadRequestError('Not Found - user company not found');
     }
 
     req.currentUser!.companyId = company.id;
