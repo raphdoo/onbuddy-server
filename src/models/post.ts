@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
-import { UserDoc } from './user';
-import { CompanyDoc } from './company';
+import mongoose from "mongoose";
+import { UserDoc } from "./user";
+import { CompanyDoc } from "./company";
 
 // An interface that describes the properties required to create a new user
-interface PostAttrs {
+export interface PostAttrs {
   content: string;
   userId: UserDoc;
   companyId: CompanyDoc;
@@ -32,16 +32,16 @@ const PostSchema = new mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company',
+      ref: "Company",
     },
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
   },
@@ -60,7 +60,7 @@ PostSchema.statics.build = (attrs: PostAttrs) => {
   return new Post(attrs);
 };
 
-const Post = mongoose.model<PostDoc, PostModel>('Post', PostSchema);
+const Post = mongoose.model<PostDoc, PostModel>("Post", PostSchema);
 
 const buildPost = (attrs: PostAttrs) => {
   return new Post(attrs);
