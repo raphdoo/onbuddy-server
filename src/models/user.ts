@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import { Password } from '../utils/password';
-import crypto from 'crypto';
-import { CompanyDoc } from './company';
+import mongoose from "mongoose";
+import { Password } from "../utils/password";
+import crypto from "crypto";
+import { CompanyDoc } from "./company";
 
 // An interface that describes the properties required to create a new user
-interface UserAttrs {
+export interface UserAttrs {
   firstname: string;
   lastname: string;
   companyId: string;
@@ -44,20 +44,20 @@ export interface UserDoc extends mongoose.Document {
 }
 
 export enum UserStatus {
-  Active = 'active',
-  Deactivated = 'deactivated',
+  Active = "active",
+  Deactivated = "deactivated",
 }
 
 export enum Roles {
-  Employee = 'employee',
-  Admin = 'admin',
+  Employee = "employee",
+  Admin = "admin",
 }
 
 export enum CandidateTypes {
-  Interns = 'interns',
-  Graduate = 'graduate',
-  Experience = 'experienced',
-  NotProvided = '-',
+  Interns = "interns",
+  Graduate = "graduate",
+  Experience = "experienced",
+  NotProvided = "-",
 }
 
 const userSchema = new mongoose.Schema(
@@ -81,15 +81,15 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      default: '-',
+      default: "-",
     },
     manager: {
       type: String,
-      default: '-',
+      default: "-",
     },
     programTrack: {
       type: String,
-      default: '-',
+      default: "-",
     },
     checklistProgress: {
       type: Number,
@@ -112,7 +112,7 @@ const userSchema = new mongoose.Schema(
     },
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company',
+      ref: "Company",
     },
     createdAt: {
       type: Date,
@@ -134,10 +134,10 @@ const userSchema = new mongoose.Schema(
 );
 
 //presave function to update to hashed password
-userSchema.pre('save', async function (done) {
-  if (this.isModified('password')) {
-    const hashed = await Password.toHash(this.get('password'));
-    this.set('password', hashed);
+userSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    const hashed = await Password.toHash(this.get("password"));
+    this.set("password", hashed);
   }
 
   done();
@@ -146,13 +146,13 @@ userSchema.pre('save', async function (done) {
 //Generate password reset token
 userSchema.methods.getPasswordRestToken = function () {
   // Generate token
-  const resetToken = crypto.randomBytes(20).toString('hex');
+  const resetToken = crypto.randomBytes(20).toString("hex");
 
   //Hash and set resetPasswordToken
   this.resetPasswordToken = crypto
-    .createHash('sha256')
+    .createHash("sha256")
     .update(resetToken)
-    .digest('hex');
+    .digest("hex");
 
   //set Token expire time
   this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
@@ -165,7 +165,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 
-const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
+const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
 const buildUser = (attrs: UserAttrs) => {
   return new User(attrs);
