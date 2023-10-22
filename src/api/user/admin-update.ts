@@ -34,13 +34,16 @@ router.put(
     const user = await User.findOne({
       _id: req.params.userId,
       companyId: req.currentUser!.companyId,
-    }).populate('company');
+    });
 
     if (!user) {
       throw new BadRequestError('user not found');
     }
 
-    if (user.companyId !== req.currentUser!.companyId) {
+    if (
+      JSON.stringify(user.companyId) !==
+      JSON.stringify(req.currentUser!.companyId)
+    ) {
       throw new NotAuthorizedError();
     }
 

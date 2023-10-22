@@ -5,7 +5,7 @@ import { CompanyDoc } from '../src/models/company';
 interface userPayload {
   id: string;
   email: string;
-  companyId: CompanyDoc;
+  companyId: string;
 }
 
 declare global {

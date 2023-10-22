@@ -32,7 +32,10 @@ router.patch(
       throw new NotAuthorizedError();
     }
 
-    if (user.companyId !== req.currentUser!.companyId) {
+    if (
+      JSON.stringify(user.companyId) !==
+      JSON.stringify(req.currentUser!.companyId)
+    ) {
       throw new NotAuthorizedError();
     }
 
