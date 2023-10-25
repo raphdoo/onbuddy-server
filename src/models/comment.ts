@@ -4,7 +4,7 @@ import { CompanyDoc } from "./company";
 import { UserDoc } from "./user";
 
 // An interface that describes the properties required to create a new user
-interface CommentAttrs {
+export interface CommentAttrs {
   content: string;
   userId: UserDoc;
   postId: PostDoc;
@@ -24,7 +24,7 @@ interface CommentDoc extends mongoose.Document {
 
 const CommentSchema = new mongoose.Schema(
   {
-    reply: {
+    content: {
       type: String,
       required: true,
       trim: true,
