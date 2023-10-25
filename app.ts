@@ -1,21 +1,23 @@
-import express from 'express';
-import { json } from 'body-parser';
-import cookieSession from 'cookie-session';
+import express from "express";
+import { json } from "body-parser";
+import cookieSession from "cookie-session";
+import morgan from "morgan";
 
 // Handling async errors
-import 'express-async-errors';
-import { NotFoundError } from './errors/not-found-error';
-import { errorHandler } from './middlewares/error-handler';
-import authRouter from './src/api/auth';
-import { currentUser } from './middlewares/current-user';
-import { setCompanyId } from './middlewares/set-company-id';
-import userRouter from './src/api/user';
+import "express-async-errors";
+import { NotFoundError } from "./errors/not-found-error";
+import { errorHandler } from "./middlewares/error-handler";
+import authRouter from "./src/api/auth";
+import { currentUser } from "./middlewares/current-user";
+import { setCompanyId } from "./middlewares/set-company-id";
+import userRouter from "./src/api/user";
+import postRouter from "./src/api/post";
 
 // Import routes
 
 const app = express();
 
-app.set('trust proxy', true);
+app.set("trust proxy", true);
 
 app.use(json());
 app.use(
@@ -24,6 +26,9 @@ app.use(
     secure: false, //we update this line of code later
   })
 );
+
+// log request info
+app.use(morgan("dev"));
 
 //Authorization Middleware
 app.use(currentUser);
@@ -34,9 +39,10 @@ app.use(setCompanyId);
 // Routes endpoints
 app.use(authRouter);
 app.use(userRouter);
+app.use(postRouter);
 
 // handling other routes
-app.all('*', async () => {
+app.all("*", async () => {
   throw new NotFoundError();
 });
 
