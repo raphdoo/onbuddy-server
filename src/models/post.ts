@@ -7,7 +7,7 @@ export interface PostAttrs {
   content: string;
   userId: string;
   companyId: string;
-  likes?: string;
+  likes?: string[];
 }
 
 // An interface that describes the properties that a user model has
