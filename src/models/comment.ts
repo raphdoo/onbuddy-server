@@ -1,13 +1,12 @@
-import mongoose from 'mongoose';
-import { PostDoc } from './post';
-import { CompanyDoc } from './company';
-import { UserDoc } from './user';
+import mongoose from "mongoose";
+import { PostDoc } from "./post";
+import { CompanyDoc } from "./company";
+import { UserDoc } from "./user";
 
 // An interface that describes the properties required to create a new user
 interface CommentAttrs {
   content: string;
   userId: UserDoc;
-  companyId: CompanyDoc;
   postId: PostDoc;
 }
 
@@ -20,7 +19,6 @@ interface CommentModel extends mongoose.Model<CommentDoc> {
 interface CommentDoc extends mongoose.Document {
   content: string;
   userId: UserDoc;
-  companyId: CompanyDoc;
   postId: PostDoc;
 }
 
@@ -33,15 +31,11 @@ const CommentSchema = new mongoose.Schema(
     },
     postId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Post',
+      ref: "Post",
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    companyId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company',
+      ref: "User",
     },
   },
   {
@@ -60,7 +54,7 @@ CommentSchema.statics.build = (attrs: CommentAttrs) => {
 };
 
 const Comment = mongoose.model<CommentDoc, CommentModel>(
-  'Comment',
+  "Comment",
   CommentSchema
 );
 
