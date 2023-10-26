@@ -1,7 +1,7 @@
 import { BadRequestError } from "../../../errors/bad-request-error";
 import { NotAuthorizedError } from "../../../errors/not-authorized-error";
 import { NotFoundError } from "../../../errors/not-found-error";
-import { CreateComment } from "../../interfaces/comment.interface";
+
 import { Comment } from "../../models/comment";
 import { Company } from "../../models/company";
 import { Post, PostAttrs } from "../../models/post";
@@ -26,18 +26,6 @@ class PostService {
     if (!post) return null;
 
     return { post, comments };
-  };
-
-  static makeComment = async (data: CreateComment) => {
-    const post = await Post.findById(data.postId);
-    if (!post) throw new NotFoundError();
-
-    const comment = await Comment.create({
-      userId: data.userId,
-      content: data.content,
-      postId: data.postId,
-    });
-    return comment;
   };
 
   static like = async (postId: string, userId: string) => {
@@ -77,25 +65,11 @@ class PostService {
     return update;
   };
 
-  static updateComment = async (commentId: string, content: string) => {
-    const comment = await Comment.findByIdAndUpdate(
-      { id: commentId },
-      { content },
-      { new: true, runValidators: true }
-    );
-    if (!comment) throw new NotFoundError("Post not found!");
-    return comment;
-  };
-
   static delete = async (data: { userId: string; postId: string }) => {
     const post = await Post.findById(data.postId);
     if (!post) throw new NotFoundError("post not found!");
     this.canUpdate(post.userId, data.userId);
     return await Post.findByIdAndDelete(data.postId);
-  };
-
-  static deleteComment = async (commentId: string) => {
-    return await Comment.findByIdAndDelete(commentId);
   };
 
   static canUpdate = (postOwnerId: string, currentUser: string | undefined) => {

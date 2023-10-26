@@ -6,11 +6,11 @@ import { likePostRouter } from "./like-post";
 import { disLikePostRouter } from "./dislike-post";
 import { updatePostRouter } from "./update-post";
 import { deletePostRouter } from "./delete-post";
-
-createPostRouter;
+import commentRouter from "../comment";
 
 const postRouter = Router();
 
+postRouter.use(commentRouter);
 postRouter.use("/api/v1/post/", postRouter);
 
 postRouter.use(createPostRouter);
