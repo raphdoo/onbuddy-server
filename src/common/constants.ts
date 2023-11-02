@@ -8,4 +8,7 @@ export const envVars = [
   'SMTP_FROM_NAME',
   'SMTP_FROM_EMAIL',
   'PORT',
+  'CLOUDINARY_CLOUD_NAME',
+  'CLOUDINARY_CLOUD_KEY',
+  'CLOUDINARY_CLOUD_SECRET',
 ] as const;
