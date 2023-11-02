@@ -5,6 +5,8 @@ import { requireAuth } from '../../../middlewares/require-auth';
 import { NotAuthorizedError } from '../../../errors/not-authorized-error';
 import { adminUser } from '../../../middlewares/admin-user';
 
+const cloudinary = require('cloudinary');
+
 const router = express.Router();
 
 router.delete(
@@ -32,6 +34,14 @@ router.delete(
 
     if (user.role === Roles.Admin) {
       throw new BadRequestError('Unable to delete an admin user');
+    }
+
+    //Remove avatar from cloudinary server
+    if (user.avatar) {
+      const image_id = user.avatar.public_id;
+      if (image_id) {
+        await cloudinary.v2.uploader.destroy(image_id);
+      }
     }
 
     await User.deleteOne({ _id: user.id });

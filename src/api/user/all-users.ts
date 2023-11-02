@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express';
 import { User } from '../../models/user';
 import { BadRequestError } from '../../../errors/bad-request-error';
+import { requireAuth } from '../../../middlewares/require-auth';
 
 const router = express.Router();
 
-router.get('/index', async (req: Request, res: Response) => {
+router.get('/index', requireAuth, async (req: Request, res: Response) => {
   const users = await User.find({ companyId: req.currentUser!.companyId });
 
   if (!users) {
