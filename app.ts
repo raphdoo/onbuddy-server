@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 
@@ -36,6 +36,10 @@ app.use(setCompanyId);
 app.use(authRouter);
 app.use(userRouter);
 app.use(businessRouter);
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('server working');
+});
 
 // handling other routes
 app.all('*', async () => {
