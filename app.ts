@@ -10,6 +10,7 @@ import authRouter from './src/api/auth';
 import { currentUser } from './middlewares/current-user';
 import { setCompanyId } from './middlewares/set-company-id';
 import userRouter from './src/api/user';
+import businessRouter from './src/api/company';
 
 // Import routes
 
@@ -34,6 +35,7 @@ app.use(setCompanyId);
 // Routes endpoints
 app.use(authRouter);
 app.use(userRouter);
+app.use(businessRouter);
 
 // handling other routes
 app.all('*', async () => {
