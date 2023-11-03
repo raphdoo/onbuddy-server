@@ -7,6 +7,7 @@ import { CompanyDoc } from './company';
 export interface UserAttrs {
   firstname: string;
   lastname: string;
+  name: string;
   companyId: string;
   email: string;
   password: string;
@@ -21,7 +22,7 @@ export interface UserAttrs {
 }
 
 // An interface that describes the properties that a user model has
-interface UserModel extends mongoose.Model<UserDoc> {
+export interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
@@ -34,6 +35,7 @@ interface Avatar {
 export interface UserDoc extends mongoose.Document {
   firstname: string;
   lastname: string;
+  name: string;
   companyId: string;
   email: string;
   password: string;
@@ -75,6 +77,10 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     lastname: {
+      type: String,
+      required: true,
+    },
+    name: {
       type: String,
       required: true,
     },
