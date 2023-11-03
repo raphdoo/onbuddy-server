@@ -21,7 +21,7 @@ const start = async () => {
 
 start();
 
-//Set up cloudinary
+//Set up cloudinary.
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
