@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import { requireAuth } from '../../../middlewares/require-auth';
 import { adminUser } from '../../../middlewares/admin-user';
 import fs from 'fs';
-import csv from 'csv-parser';
 import { User } from '../../models/user';
+import csv from 'csv-parser';
 
 const router = express.Router();
 
@@ -41,15 +41,19 @@ router.post(
           const password = getRandomPassword(7);
 
           try {
-            const user = User.build({
-              firstname,
-              lastname,
-              email,
-              password,
-              companyId: req.currentUser!.companyId,
-            });
+            if (req.currentUser!.companyId) {
+              const user = User.build({
+                firstname,
+                lastname,
+                email,
+                password,
+                companyId: req.currentUser!.companyId,
+              });
 
-            await user.save();
+              await user.save();
+            } else {
+              throw new Error('CurrentUser company id not set');
+            }
           } catch (error) {
             throw new Error('unable to create users');
           }
