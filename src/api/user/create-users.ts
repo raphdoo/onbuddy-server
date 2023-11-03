@@ -39,12 +39,14 @@ router.post(
           const userData = { firstname, lastname, email };
 
           const password = getRandomPassword(7);
+          const name = `${firstname} ${lastname}`;
 
           try {
             if (req.currentUser!.companyId) {
               const user = User.build({
                 firstname,
                 lastname,
+                name,
                 email,
                 password,
                 companyId: req.currentUser!.companyId,
