@@ -38,7 +38,8 @@ router.post(
           const { firstname, lastname, email } = results[i];
           const userData = { firstname, lastname, email };
 
-          const password = getRandomPassword(7);
+          // const password = getRandomPassword(7);
+          const password = 'password';
           const name = `${firstname} ${lastname}`;
 
           try {
