@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { currentUserRouter } from './currentuser';
 import { forgotPasswordRouter } from './forgotpassword';
 import { resetPasswordRouter } from './resetPassword';
-import { signinRouter } from './signin';
+import { signinRouter } from './admin-signin';
 import { signoutRouter } from './signout';
 import { signupRouter } from './signup';
 import { changePasswordRouter } from './changePassword';
