@@ -55,4 +55,4 @@ router.post(
   }
 );
 
-export { router as adminSigninRouter };
+export { router as signinRouter };
