@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import express, { Request, Response } from "express";
+=======
+import express, { Response, Request } from "express";
+>>>>>>> 45e161d (fix merge conflict)
 import { json } from "body-parser";
 import morgan from "morgan";
 import cookieSession from "cookie-session";
@@ -11,10 +15,9 @@ import authRouter from "./src/api/auth";
 import { currentUser } from "./middlewares/current-user";
 import { setCompanyId } from "./middlewares/set-company-id";
 import businessRouter from "./src/api/company";
+
 import userRouter from "./src/api/user";
 import postRouter from "./src/api/post";
-
-// Import routes
 
 const app = express();
 
