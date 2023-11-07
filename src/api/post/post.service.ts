@@ -29,27 +29,18 @@ class PostService {
   };
 
   static like = async (postId: string, userId: string) => {
-    const post: any = await Post.findById(postId).populate("likes");
+    let post: any = await Post.findById(postId).populate("likes");
     if (!post) throw new NotFoundError("post not found!");
     const isAlreadyLiked = post?.likes.find((each: any) => each.id === userId);
-    if (isAlreadyLiked)
-      throw new BadRequestError("This post as already being like already");
+    if (isAlreadyLiked) {
+      post.likes = post?.likes.filter((each: any) => each.id !== userId);
+      await post.save();
+      return true;
+    }
     post?.likes.push(userId);
     await post.save();
     return post;
   };
-
-  static disLike = async (postId: string, userId: string) => {
-    let post: any = await Post.findById(postId).populate("likes");
-    if (!post) throw new NotFoundError("post not found!");
-    const isAlreadyLiked = post?.likes.find((each: any) => each.id === userId);
-    if (!isAlreadyLiked)
-      throw new BadRequestError("This post has not been liked!");
-    post.likes = post?.likes.filter((each: any) => each.id !== userId);
-    await post.save();
-    return post;
-  };
-
   static update = async (
     postId: string,
     data: { content: string; userId: string }
@@ -69,6 +60,7 @@ class PostService {
     const post = await Post.findById(data.postId);
     if (!post) throw new NotFoundError("post not found!");
     this.canUpdate(post.userId, data.userId);
+    await Comment.deleteMany({ postId: data.postId });
     return await Post.findByIdAndDelete(data.postId);
   };
 

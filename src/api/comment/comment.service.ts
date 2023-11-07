@@ -24,7 +24,6 @@ class CommentService {
   ) => {
     const comment = await Comment.findById(commentId).populate("userId");
     if (!comment) throw new NotFoundError("comment not found");
-    console.log(comment.userId.id);
     this.canUpdate(comment.userId.id, data.userId);
     const update = await Comment.findByIdAndUpdate(
       commentId,
