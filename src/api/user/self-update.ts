@@ -6,17 +6,14 @@ import { NotAuthorizedError } from '../../../errors/not-authorized-error';
 import { body } from 'express-validator';
 import { validateRequest } from '../../../middlewares/validate-request';
 
+const cloudinary = require('cloudinary');
+
 const router = express.Router();
 
 router.patch(
   '/:userId',
   requireAuth,
-  [
-    body('bio')
-      .trim()
-      .isLength({ min: 5, max: 5000 })
-      .withMessage('Please provide bio between 5 and 5000 characters long'),
-  ],
+  [body('bio').trim()],
   validateRequest,
   async (req: Request, res: Response) => {
     const user = await User.findOne({
@@ -39,8 +36,18 @@ router.patch(
       throw new NotAuthorizedError();
     }
 
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    });
+
     user.set({
       bio: req.body.bio,
+      avatar: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
     });
     await user.save();
 

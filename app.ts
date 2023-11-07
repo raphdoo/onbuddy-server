@@ -12,7 +12,7 @@ import { currentUser } from "./middlewares/current-user";
 import { setCompanyId } from "./middlewares/set-company-id";
 import userRouter from "./src/api/user";
 import postRouter from "./src/api/post";
-
+import businessRouter from './src/api/company';
 // Import routes
 
 const app = express();
@@ -40,6 +40,11 @@ app.use(setCompanyId);
 app.use(authRouter);
 app.use(userRouter);
 app.use(postRouter);
+app.use(businessRouter);
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('server working');
+});
 
 // handling other routes
 app.all("*", async () => {

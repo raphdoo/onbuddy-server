@@ -53,9 +53,12 @@ router.post(
 
     await company.save();
 
+    const name = `${firstname} ${lastname}`;
+
     const user = User.build({
       firstname,
       lastname,
+      name,
       email,
       password,
       companyId: company.id,

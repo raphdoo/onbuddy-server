@@ -9,7 +9,7 @@ import { Password } from '../../utils/password';
 const router = express.Router();
 
 router.post(
-  '/signin',
+  '/admin/signin',
   [
     body('email').isEmail().withMessage('Please provide a valid email'),
     body('password')
@@ -27,7 +27,7 @@ router.post(
       throw new BadRequestError('Please provide a valid credentials');
     }
 
-    if (existingUser.role !== Roles.Employee) {
+    if (existingUser.role !== Roles.Admin) {
       throw new BadRequestError('Please provide a valid credentials');
     }
 
@@ -55,4 +55,4 @@ router.post(
   }
 );
 
-export { router as signinRouter };
+export { router as adminSigninRouter };

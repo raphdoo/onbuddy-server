@@ -1,0 +1,38 @@
+[
+  {
+    "firstname": "lamide",
+    "lastname": "dauda",
+    "name": "lamide dauda",
+    "email": "lamide@gmail.com",
+    "password": "password",
+    "companyName": "companyA",
+    "pricing": "free"
+  },
+  {
+    "firstname": "henry",
+    "lastname": "mark",
+    "name": "henry mark",
+    "email": "henry@gmail.com",
+    "password": "password",
+    "companyName": "companyB",
+    "pricing": "pro"
+  },
+  {
+    "firstname": "james",
+    "lastname": "cook",
+    "name": "james cook",
+    "email": "james@gmail.com",
+    "password": "password",
+    "companyName": "companyC",
+    "pricing": "free"
+  },
+  {
+    "firstname": "mike",
+    "lastname": "jack",
+    "name": "mike jack",
+    "email": "mike@gmail.com",
+    "password": "password",
+    "companyName": "companyD",
+    "pricing": "pro"
+  }
+]

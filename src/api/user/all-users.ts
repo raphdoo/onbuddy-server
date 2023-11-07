@@ -1,17 +1,31 @@
 import express, { Request, Response } from 'express';
-import { User } from '../../models/user';
-import { BadRequestError } from '../../../errors/bad-request-error';
+import { Roles, User } from '../../models/user';
+import { requireAuth } from '../../../middlewares/require-auth';
 
 const router = express.Router();
 
-router.get('/index', async (req: Request, res: Response) => {
-  const users = await User.find({ companyId: req.currentUser!.companyId });
+router.get('/index', requireAuth, async (req: Request, res: Response) => {
+  const { keyword, ...filters } = req.query;
+  const companyId = req.currentUser!.companyId;
 
-  if (!users) {
-    throw new BadRequestError('no user belonging to company id found');
+  let queryConditions: any = {
+    companyId,
+    role: Roles.Employee,
+  };
+
+  if (keyword) {
+    queryConditions.name = {
+      $regex: keyword,
+      $options: 'i',
+    };
   }
 
-  res.status(200).send(users);
+  Object.keys(filters).forEach((key) => {
+    queryConditions[key] = filters[key];
+  });
+
+  const users = await User.find(queryConditions).exec();
+  res.send(users);
 });
 
 export { router as userIndexRouter };

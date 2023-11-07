@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { currentUserRouter } from './currentuser';
 import { forgotPasswordRouter } from './forgotpassword';
 import { resetPasswordRouter } from './resetPassword';
+import { adminSigninRouter } from './admin-signin';
 import { signinRouter } from './signin';
 import { signoutRouter } from './signout';
 import { signupRouter } from './signup';
@@ -14,6 +15,7 @@ authRouter.use('/api/v1/auth/', authRouter);
 
 authRouter.use(currentUserRouter);
 authRouter.use(forgotPasswordRouter);
+authRouter.use(adminSigninRouter);
 authRouter.use(signinRouter);
 authRouter.use(signoutRouter);
 authRouter.use(signupRouter);
