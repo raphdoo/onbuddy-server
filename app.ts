@@ -1,7 +1,7 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { json } from "body-parser";
-import cookieSession from "cookie-session";
 import morgan from "morgan";
+import cookieSession from "cookie-session";
 
 // Handling async errors
 import "express-async-errors";
@@ -10,9 +10,10 @@ import { errorHandler } from "./middlewares/error-handler";
 import authRouter from "./src/api/auth";
 import { currentUser } from "./middlewares/current-user";
 import { setCompanyId } from "./middlewares/set-company-id";
+import businessRouter from "./src/api/company";
 import userRouter from "./src/api/user";
 import postRouter from "./src/api/post";
-import businessRouter from './src/api/company';
+
 // Import routes
 
 const app = express();
@@ -41,9 +42,10 @@ app.use(authRouter);
 app.use(userRouter);
 app.use(postRouter);
 app.use(businessRouter);
+app.use(postRouter);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('server working');
+app.get("/", (req: Request, res: Response) => {
+  res.send("server working");
 });
 
 // handling other routes
