@@ -9,6 +9,7 @@ import cookieSession from "cookie-session";
 
 // Handling async errors
 import "express-async-errors";
+
 import { NotFoundError } from "./errors/not-found-error";
 import { errorHandler } from "./middlewares/error-handler";
 import authRouter from "./src/api/auth";
