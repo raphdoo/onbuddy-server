@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import express, { Request, Response } from "express";
-=======
-import express, { Response, Request } from "express";
->>>>>>> 45e161d (fix merge conflict)
 import { json } from "body-parser";
 import morgan from "morgan";
 import cookieSession from "cookie-session";
