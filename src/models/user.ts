@@ -64,7 +64,7 @@ export enum Roles {
 }
 
 export enum CandidateTypes {
-  Interns = 'interns',
+  Interns = 'intern',
   Graduate = 'graduate',
   Experience = 'experienced',
   NotProvided = '-',
