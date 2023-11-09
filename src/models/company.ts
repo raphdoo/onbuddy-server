@@ -32,8 +32,8 @@ export interface CompanyDoc extends mongoose.Document {
 }
 
 export enum pricingPlan {
-  Free = 'free',
-  Pro = 'pro',
+  Free = 'Standard',
+  Pro = 'Pro',
 }
 
 export enum Status {

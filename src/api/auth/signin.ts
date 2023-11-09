@@ -27,10 +27,6 @@ router.post(
       throw new BadRequestError('Please provide a valid credentials');
     }
 
-    if (existingUser.role !== Roles.Employee) {
-      throw new BadRequestError('Please provide a valid credentials');
-    }
-
     const passwordMatch = await Password.compare(
       existingUser.password,
       password

@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { json } from 'body-parser';
 import morgan from 'morgan';
 import cookieSession from 'cookie-session';
+import rateLimit from 'express-rate-limit';
 
 // Handling async errors
 import 'express-async-errors';
