@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
     signed: false,
-    secure: true,
+    secure: false,
     httpOnly: true,
     sameSite: 'none',
   })
