@@ -27,7 +27,7 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: false, //we update this line of code later
+    secure: true, //we update this line of code later
   })
 );
 
