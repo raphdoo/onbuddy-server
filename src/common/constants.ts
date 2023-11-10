@@ -11,4 +11,5 @@ export const envVars = [
   'CLOUDINARY_CLOUD_NAME',
   'CLOUDINARY_CLOUD_KEY',
   'CLOUDINARY_CLOUD_SECRET',
+  'COOKIE_EXPIRES_TIME',
 ] as const;
