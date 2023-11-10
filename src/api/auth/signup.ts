@@ -73,18 +73,12 @@ router.post(
       process.env.JWT_KEY!
     );
 
-    res
-      .status(201)
-      .cookie('session', userJwt, {
-        expires: new Date(
-          Date.now() +
-            parseInt(process.env.COOKIE_EXPIRES_TIME!) * 24 * 60 * 60 * 1000
-        ),
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-      })
-      .send(user);
+    //Store in a session object
+    req.session = {
+      jwt: userJwt,
+    };
+
+    res.status(201).send(user);
   }
 );
 

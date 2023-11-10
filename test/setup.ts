@@ -40,7 +40,7 @@ global.signup = async (mail: string) => {
   const companyName = 'companyName';
   const email = mail;
   const password = 'right';
-  const pricing = 'free';
+  const pricing = 'Standard';
 
   const response = await request(app)
     .post('/api/v1/auth/signup')

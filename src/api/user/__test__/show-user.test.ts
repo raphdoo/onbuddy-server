@@ -11,7 +11,7 @@ it('show user details', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: '1234567',
-      pricing: 'free',
+      pricing: 'Standard',
     })
     .expect(201);
 

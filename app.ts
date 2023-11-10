@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { json } from 'body-parser';
+import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import cookieSession from 'cookie-session';
 import rateLimit from 'express-rate-limit';
@@ -21,13 +21,14 @@ const cors = require('cors');
 
 const app = express();
 
-app.set('trust proxy', true);
-
-app.use(json());
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
     signed: false,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'none',
   })
 );
 

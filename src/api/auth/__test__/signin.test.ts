@@ -20,7 +20,7 @@ it('fails when an incorrect password is supplied', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: 'right',
-      pricing: 'free',
+      pricing: 'Standard',
     })
     .expect(201);
 
@@ -42,7 +42,7 @@ it('responds with a cookie when given valid credential', async () => {
       companyName: 'companyName',
       email: 'test@test.com',
       password: '1234567',
-      pricing: 'free',
+      pricing: 'Standard',
     })
     .expect(201);
 
