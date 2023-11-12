@@ -22,6 +22,8 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+app.set('trust proxy', true);
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -36,11 +38,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:4173',
-      'https://onbuddy-client.vercel.app',
-    ],
+    origin: ['http://localhost:3000', 'https://onbuddy-client.vercel.app'],
     credentials: true,
   })
 );
