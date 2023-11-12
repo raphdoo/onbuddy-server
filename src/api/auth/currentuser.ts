@@ -4,7 +4,7 @@ import { adminUser } from '../../../middlewares/admin-user';
 
 const router = express.Router();
 
-router.get('/currentuser', (req: Request, res: Response) => {
+router.get('/currentuser', currentUser, (req: Request, res: Response) => {
   res.send({ currentUser: req.currentUser || null });
 });
 

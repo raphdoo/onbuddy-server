@@ -18,23 +18,29 @@ import userRouter from './src/api/user';
 import postRouter from './src/api/post';
 
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  cookieSession({
-    signed: false,
-    secure: false,
-    httpOnly: true,
-    sameSite: 'none',
-  })
-);
+app.use(cookieParser());
+// app.use(
+//   cookieSession({
+//     signed: false,
+//     secure: process.env.NODE_ENV === 'production',
+//     httpOnly: true,
+//     sameSite: 'none',
+//   })
+// );
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://onbuddy-client.vercel.app'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:4173',
+      'https://onbuddy-client.vercel.app',
+    ],
     credentials: true,
   })
 );

@@ -3,13 +3,15 @@ import express, { Request, Response } from 'express';
 const router = express.Router();
 
 router.post('/signout', (req: Request, res: Response) => {
-  if (req.session) {
-    req.session = null;
-  }
-
-  if (req.session == null) {
-    res.send({ message: 'Signout Successful' });
-  }
+  res
+    .status(200)
+    .cookie('session', null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    })
+    .send({ message: 'Signout successful' });
 });
 
 export { router as signoutRouter };
