@@ -39,9 +39,16 @@ app.use(fileUpload());
 //   })
 // );
 
+// app.use(
+//   cors({
+//     origin: ['http://localhost:3000', 'https://onbuddy-client.vercel.app'],
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://onbuddy-client.vercel.app'],
+    origin: '*',
     credentials: true,
   })
 );
