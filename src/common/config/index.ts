@@ -11,6 +11,12 @@ type SmtpConfig = {
   from_email: string;
 };
 
+type CloudinaryConfig = {
+  cloud_name: string;
+  api_key: string;
+  api_secret: string;
+};
+
 // Define the overall configuration type
 type AppConfig = {
   JWT: string;
@@ -21,6 +27,7 @@ type AppConfig = {
   app: {
     port: any;
   };
+  cloudinary: CloudinaryConfig;
 };
 
 export default {
@@ -39,5 +46,10 @@ export default {
   },
   app: {
     port: process.env.PORT,
+  },
+  cloudinary: {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_CLOUD_KEY,
+    api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
   },
 } as AppConfig;
