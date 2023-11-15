@@ -1,31 +1,32 @@
-import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-import cookieSession from 'cookie-session';
-import rateLimit from 'express-rate-limit';
+import express, { Request, Response } from "express";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import cookieSession from "cookie-session";
+import rateLimit from "express-rate-limit";
 
 // Handling async errors
-import 'express-async-errors';
+import "express-async-errors";
 
-import { NotFoundError } from './errors/not-found-error';
-import { errorHandler } from './middlewares/error-handler';
-import authRouter from './src/api/auth';
-import { currentUser } from './middlewares/current-user';
-import { setCompanyId } from './middlewares/set-company-id';
-import businessRouter from './src/api/company';
+import { NotFoundError } from "./errors/not-found-error";
+import { errorHandler } from "./middlewares/error-handler";
+import authRouter from "./src/api/auth";
+import { currentUser } from "./middlewares/current-user";
+import { setCompanyId } from "./middlewares/set-company-id";
+import businessRouter from "./src/api/company";
 
-import userRouter from './src/api/user';
-import postRouter from './src/api/post';
+import userRouter from "./src/api/user";
+import postRouter from "./src/api/post";
+import fileRouter from "./src/api/file";
 
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
 const app = express();
 
-app.set('trust proxy', true);
+app.set("trust proxy", true);
 
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(fileUpload());
 // app.use(
@@ -39,7 +40,7 @@ app.use(fileUpload());
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://onbuddy-client.vercel.app'],
+    origin: ["http://localhost:3000", "https://onbuddy-client.vercel.app"],
     credentials: true,
   })
 );
@@ -54,7 +55,7 @@ const rateLimiter = rateLimit({
 app.use(rateLimiter);
 
 // log request info
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 //Authorization Middleware
 app.use(currentUser);
@@ -68,13 +69,14 @@ app.use(userRouter);
 app.use(postRouter);
 app.use(businessRouter);
 app.use(postRouter);
+app.use(fileRouter);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('server working');
+app.get("/", (req: Request, res: Response) => {
+  res.send("server working");
 });
 
 // handling other routes
-app.all('*', async () => {
+app.all("*", async () => {
   throw new NotFoundError();
 });
 
