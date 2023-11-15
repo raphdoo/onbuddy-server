@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { CompanyDoc } from '../src/models/company';
-import { User } from '../src/models/user';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { CompanyDoc } from "../src/models/company";
+import { User } from "../src/models/user";
 
 interface userPayload {
   id: string;
@@ -22,13 +22,15 @@ export const currentUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.cookies.session) {
+  console.log(req.session);
+
+  if (!req.session?.jwt) {
     return next();
   }
 
   try {
     const payload = jwt.verify(
-      req.cookies.session,
+      req.session.jwt,
       process.env.JWT_KEY!
     ) as userPayload;
 
