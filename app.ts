@@ -19,6 +19,7 @@ import postRouter from './src/api/post';
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.set('trust proxy', true);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(fileUpload());
 // app.use(
 //   cookieSession({
 //     signed: false,
