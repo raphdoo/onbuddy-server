@@ -1,10 +1,10 @@
-import { BadRequestError } from "../../../errors/bad-request-error";
-import { NotAuthorizedError } from "../../../errors/not-authorized-error";
-import { NotFoundError } from "../../../errors/not-found-error";
+import { BadRequestError } from '../../../errors/bad-request-error';
+import { NotAuthorizedError } from '../../../errors/not-authorized-error';
+import { NotFoundError } from '../../../errors/not-found-error';
 
-import { Comment } from "../../models/comment";
-import { Company } from "../../models/company";
-import { Post, PostAttrs } from "../../models/post";
+import { Comment } from '../../models/comment';
+import { Company } from '../../models/company';
+import { Post, PostAttrs } from '../../models/post';
 
 class PostService {
   static create = async (data: PostAttrs) => {
@@ -14,13 +14,13 @@ class PostService {
   };
 
   static find = async (companyId: string | undefined) => {
-    return await Post.find({ companyId });
+    return await Post.find({ companyId }).populate('userId');
   };
 
   static get = async (id: string) => {
     const [post, comments] = await Promise.all([
       Post.findById(id),
-      Comment.find({ postId: id }),
+      Comment.find({ postId: id }).populate('userId'),
     ]);
 
     if (!post) return null;
@@ -29,8 +29,8 @@ class PostService {
   };
 
   static like = async (postId: string, userId: string) => {
-    let post: any = await Post.findById(postId).populate("likes");
-    if (!post) throw new NotFoundError("post not found!");
+    let post: any = await Post.findById(postId).populate('likes');
+    if (!post) throw new NotFoundError('post not found!');
     const isAlreadyLiked = post?.likes.find((each: any) => each.id === userId);
     if (isAlreadyLiked) {
       post.likes = post?.likes.filter((each: any) => each.id !== userId);
@@ -46,7 +46,7 @@ class PostService {
     data: { content: string; userId: string }
   ) => {
     const post = await Post.findById(postId);
-    if (!post) throw new NotFoundError("post not found");
+    if (!post) throw new NotFoundError('post not found');
     this.canUpdate(post.userId, data.userId);
     const update = await Post.findByIdAndUpdate(
       postId,
@@ -58,7 +58,7 @@ class PostService {
 
   static delete = async (data: { userId: string; postId: string }) => {
     const post = await Post.findById(data.postId);
-    if (!post) throw new NotFoundError("post not found!");
+    if (!post) throw new NotFoundError('post not found!');
     this.canUpdate(post.userId, data.userId);
     await Comment.deleteMany({ postId: data.postId });
     return await Post.findByIdAndDelete(data.postId);
