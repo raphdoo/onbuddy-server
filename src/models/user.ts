@@ -127,9 +127,12 @@ const userSchema = new mongoose.Schema(
     avatar: {
       public_id: {
         type: String,
+        default: 'avatars/dsomtzmw8xuniybgxgnh',
       },
       url: {
         type: String,
+        default:
+          'https://res.cloudinary.com/dkig1mqx3/image/upload/v1700085126/avatars/dsomtzmw8xuniybgxgnh.png',
       },
     },
     companyId: {

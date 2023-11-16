@@ -1,14 +1,14 @@
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
 
-import { validateRequest } from "../../../middlewares/validate-request";
-import CommentService from "./comment.service";
+import { validateRequest } from '../../../middlewares/validate-request';
+import CommentService from './comment.service';
 
 const router = express.Router();
 
 router.post(
-  "/:postId/comment/create",
-  [body("content").notEmpty().withMessage("Please provide a content")],
+  '/:postId/comment/create',
+  [body('content').notEmpty().withMessage('Please provide a content')],
   validateRequest,
   async (req: Request, res: Response) => {
     const { content } = req.body;
