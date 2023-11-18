@@ -20,7 +20,6 @@ import fileRouter from "./src/api/file";
 
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const fileUpload = require("express-fileupload");
 
 const app = express();
 
@@ -28,7 +27,6 @@ app.set("trust proxy", true);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
-app.use(fileUpload());
 // app.use(
 //   cookieSession({
 //     signed: false,
