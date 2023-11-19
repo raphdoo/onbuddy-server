@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express';
-import { requireAuth } from '../../../middlewares/require-auth';
-import { adminUser } from '../../../middlewares/admin-user';
-import fs from 'fs';
-import { User } from '../../models/user';
-import csv from 'csv-parser';
+import express, { Request, Response } from "express";
+import csv from "csv-parser";
+import axios from "axios";
+
+import { requireAuth } from "../../../middlewares/require-auth";
+import { adminUser } from "../../../middlewares/admin-user";
+import { User } from "../../models/user";
 
 const router = express.Router();
 
@@ -15,8 +16,8 @@ export interface payload {
 
 const getRandomPassword = (length: number) => {
   const charset =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
   for (let i = 0; i < length; i++) {
     result += charset.charAt(Math.floor(Math.random() * charset.length));
   }
@@ -24,22 +25,23 @@ const getRandomPassword = (length: number) => {
 };
 
 router.post(
-  '/create',
+  "/create",
   requireAuth,
   adminUser,
   async (req: Request, res: Response) => {
+    const { csvUrl } = req.body;
     const results: payload[] = [];
-
-    fs.createReadStream('src/api/user/Book1.csv')
+    const response = await axios.get(csvUrl, { responseType: "stream" });
+    response.data
       .pipe(csv())
-      .on('data', (data: payload) => results.push(data))
-      .on('end', async () => {
+      .on("data", (data: payload) => {
+        results.push(data);
+      })
+      .on("end", async () => {
         for (let i = 0; i < results.length; i++) {
           const { firstname, lastname, email } = results[i];
-          const userData = { firstname, lastname, email };
 
-          // const password = getRandomPassword(7);
-          const password = 'password';
+          const password = getRandomPassword(7);
           const name = `${firstname} ${lastname}`;
 
           try {
@@ -55,13 +57,13 @@ router.post(
 
               await user.save();
             } else {
-              throw new Error('CurrentUser company id not set');
+              throw new Error("CurrentUser company id not set");
             }
           } catch (error) {
-            throw new Error('unable to create users');
+            throw new Error("unable to create users");
           }
         }
-        res.status(201).send({ message: 'all users created successfully' });
+        res.status(201).send({ message: "all users created successfully" });
       });
   }
 );
