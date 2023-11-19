@@ -15,9 +15,9 @@ router.post(
     try {
       if (!req.file) throw new BadRequestError("upload a valid file");
       const cloudinaryService = new CloudinaryService();
-      const response = await cloudinaryService.uploadFile(req.file);
+      const { secure_url } = await cloudinaryService.uploadFile(req.file);
 
-      res.json({ response });
+      res.json({ secure_url });
     } catch (error: any) {
       console.log(error);
       throw new BadRequestError(
