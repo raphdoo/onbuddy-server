@@ -5,6 +5,7 @@ import { requireAuth } from '../../../middlewares/require-auth';
 import { NotAuthorizedError } from '../../../errors/not-authorized-error';
 import { body } from 'express-validator';
 import { validateRequest } from '../../../middlewares/validate-request';
+import { Password } from '../../utils/password';
 
 const router = express.Router();
 
@@ -12,11 +13,15 @@ router.put(
   '/:userId',
   requireAuth,
   [
-    body('password')
+    body('oldPassword')
       .trim()
       .isLength({ min: 4, max: 20 })
       .withMessage('Password must be between 4 and 20 characters long'),
 
+    body('newPassword')
+      .trim()
+      .isLength({ min: 4, max: 20 })
+      .withMessage('Password must be between 4 and 20 characters long'),
     body('confirmPassword')
       .trim()
       .isLength({ min: 4, max: 20 })
@@ -24,9 +29,9 @@ router.put(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { password, confirmPassword } = req.body;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       throw new BadRequestError('Password does not match');
     }
 
@@ -43,15 +48,14 @@ router.put(
       throw new NotAuthorizedError();
     }
 
-    if (
-      JSON.stringify(user.companyId) !==
-      JSON.stringify(req.currentUser!.companyId)
-    ) {
-      throw new NotAuthorizedError();
+    const passwordMatch = await Password.compare(user.password, oldPassword);
+
+    if (!passwordMatch) {
+      throw new BadRequestError('Please provide a valid credentials');
     }
 
     user.set({
-      password,
+      password: newPassword,
     });
     await user.save();
 

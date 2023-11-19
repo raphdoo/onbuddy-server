@@ -63,10 +63,17 @@ export enum Roles {
   Admin = 'admin',
 }
 
+export enum ProgramTrack {
+  Technology = 'Technology',
+  Sales = 'Sales',
+  Operations = 'Operations',
+  NotProvided = '-',
+}
+
 export enum CandidateTypes {
-  Interns = 'intern',
-  Graduate = 'graduate',
-  Experience = 'experienced',
+  Interns = 'Intern',
+  Graduate = 'Graduate',
+  Experience = 'Experienced',
   NotProvided = '-',
 }
 
@@ -103,7 +110,8 @@ const userSchema = new mongoose.Schema(
     },
     programTrack: {
       type: String,
-      default: '-',
+      enum: Object.values(ProgramTrack),
+      default: ProgramTrack.NotProvided,
     },
     checklistProgress: {
       type: Number,
