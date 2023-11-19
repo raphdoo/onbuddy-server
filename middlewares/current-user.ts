@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { CompanyDoc } from '../src/models/company';
-import { User } from '../src/models/user';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { CompanyDoc } from "../src/models/company";
+import { User } from "../src/models/user";
 
 interface userPayload {
   id: string;
