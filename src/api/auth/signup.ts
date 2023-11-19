@@ -82,9 +82,8 @@ router.post(
       .status(201)
       .cookie('session', userJwt, {
         expires: new Date(
-          Date.now() + process.env.COOKIE_EXPIRES_TIME!
-            ? parseInt(process.env.COOKIE_EXPIRES_TIME!)
-            : 2 * 24 * 60 * 60 * 1000
+          Date.now() +
+            parseInt(process.env.COOKIE_EXPIRES_TIME!) * 24 * 60 * 60 * 1000
         ),
         httpOnly: true,
         secure: true,
