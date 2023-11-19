@@ -1,4 +1,4 @@
-import { config as envConfig } from "dotenv";
+import { config as envConfig } from 'dotenv';
 
 envConfig();
 
@@ -49,7 +49,7 @@ export default {
   },
   cloudinary: {
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_CLOUD_KEY,
+    api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
   },
 } as AppConfig;
