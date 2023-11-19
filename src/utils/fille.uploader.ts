@@ -34,6 +34,14 @@ class CloudinaryService {
     return result;
   }
 
+  async upload(payload: any) {
+    return await cloudinary.uploader.upload(payload, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+  }
+
   async deleteFile(publicId: string): Promise<void> {
     try {
       await cloudinary.uploader.destroy(publicId);
