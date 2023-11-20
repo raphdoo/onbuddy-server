@@ -1,19 +1,18 @@
-import express, { Request, Response } from 'express';
-import { User } from '../../models/user';
-import { BadRequestError } from '../../../errors/bad-request-error';
-import { requireAuth } from '../../../middlewares/require-auth';
-import { NotAuthorizedError } from '../../../errors/not-authorized-error';
-import { body } from 'express-validator';
-import { validateRequest } from '../../../middlewares/validate-request';
-
-const cloudinary = require('cloudinary');
+import express, { Request, Response } from "express";
+import { User } from "../../models/user";
+import { BadRequestError } from "../../../errors/bad-request-error";
+import { requireAuth } from "../../../middlewares/require-auth";
+import { NotAuthorizedError } from "../../../errors/not-authorized-error";
+import { body } from "express-validator";
+import { validateRequest } from "../../../middlewares/validate-request";
+import CloudinaryService from "../../utils/fille.uploader";
 
 const router = express.Router();
 
 router.patch(
-  '/:userId',
+  "/:userId",
   requireAuth,
-  [body('bio').trim()],
+  [body("bio").trim()],
   validateRequest,
   async (req: Request, res: Response) => {
     const user = await User.findOne({
@@ -22,7 +21,7 @@ router.patch(
     });
 
     if (!user) {
-      throw new BadRequestError('user not found');
+      throw new BadRequestError("user not found");
     }
 
     if (user.id !== req.currentUser!.id) {
@@ -36,11 +35,8 @@ router.patch(
       throw new NotAuthorizedError();
     }
 
-    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-      folder: 'avatars',
-      width: 150,
-      crop: 'scale',
-    });
+    const cloudinaryService = new CloudinaryService();
+    const result = await cloudinaryService.upload(req.body.avatar);
 
     user.set({
       bio: req.body.bio,
